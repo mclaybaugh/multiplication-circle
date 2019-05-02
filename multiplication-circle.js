@@ -95,82 +95,49 @@ window.onload = function initCanvas() {
   drawCanvas();
 };
 
-function getSubNumber (multiplier) {
-  if (multiplier - Math.floor(multiplier) == 0) {
-    return 1;
-  }
-  else if (multiplier * 10 - Math.floor(multiplier * 10) == 0) {
-    return 10;
-  }
-  else if (multiplier * 100 - Math.floor(multiplier * 100) == 0) {
-    return 100;
-  }
-  else if (multiplier * 1000 - Math.floor(multiplier * 1000) == 0) {
-    return 1000;
-  }
-  else if (multiplier * 10000 - Math.floor(multiplier * 10000) == 0) {
-    return 10000;
-  }
-  else { return null; }
-}
-
-function getPoints(modulus, radius, subNumber = 1) {
-  let points = [];
-  let i = 0;
-  for (let angle = 0; angle < TAU; angle += (TAU / (modulus * subNumber))) {
-    points[i] = {
-      x: radius * Math.cos(angle),
-      y: radius * Math.sin(angle)
-    };
-    i++;
-  }
-  return points;
-}
-
 function drawCanvas () {
-  /****************************************************************
-   * Step 1: get values from input fields and calculate coords
-   * **************************************************************/
   let dotRadius = document.getElementById('dotRadius').value;
   let modulus = document.getElementById('modulus').value;
   let multiplier = document.getElementById('multiplier').value;
-  let originPoints = getPointsArray(modulus, radius);
-  let subNumber = getSubNumber(multiplier);
-  if (subNumber === null) {
-    let errorMessage = 'Multiplier of \'' + multiplier + '\' is not supported.';
-    ctx.clearRect(-(cheight2), -(cheight2), canvas.height*2, canvas.height*2);
-    ctx.fillText(errorMessage, -(cheight2) + 15, -(cheight2) + 15);
-    return;
-  }
-  let destPoints = getPointsArray(modulus, radius, subNumber);
+  let products = getProducts(modulus, radius, multiplier);
 
-  /****************************************************************
-   * Step 2: Draw the dots and lines on the canvas
-   * **************************************************************/
-  // clear canvas and previous paths
+  // reset canvas and write modulus and multiplier values
   ctx.clearRect(-(cheight2), -(cheight2), canvas.height*2, canvas.height*2);
+  ctx.fillText('Mod:  ' + modulus, -(cheight2) + 15, -(cheight2) + 20);
+  ctx.fillText('Mult: ' + multiplier, -(cheight2) + 15, -(cheight2) + 40);
 
-  // write the values
-  let modString = 'Mod:  ' + modulus.toString();
-  let multString = 'Mult: ' + multiplier.toString();
-  ctx.fillText(modString, -(cheight2) + 15, -(cheight2) + 20);
-  ctx.fillText(multString, -(cheight2) + 15, -(cheight2) + 40);
-
-  // draw dots
-  originPoints.map((coord) => {
+  products.map((product) => {
+    // draw dot of origin
     ctx.beginPath();
-    ctx.arc(coord.x, coord.y, dotRadius, 0, TAU);
+    ctx.arc(product.origin.x, product.origin.y, dotRadius, 0, TAU);
     ctx.fill();
-  });
-
-  // draw lines
-  let smallIndex = 0;
-  for (let index = 0; index < destPoints.length; index += subNumber) {
-    let endpoint = Math.round((index * multiplier) % (modulus * subNumber));
+    // line to destination
     ctx.beginPath();
-    ctx.moveTo(originPoints[smallIndex].x, originPoints[smallIndex].y);
-    ctx.lineTo(destPoints[endpoint].x, destPoints[endpoint].y);
+    ctx.moveTo(product.origin.x, product.origin.y);
+    ctx.lineTo(product.dest.x, product.dest.y);
     ctx.stroke();
-    smallIndex++;
+  });
+}
+
+function getProducts(modulus, radius, multiplier) {
+  let products = [];
+  for (let i = 0; i < modulus; i++) {
+    let originAngle = angleFromNumber(i, modulus);
+    let destAngle = angleFromNumber(i * multiplier, modulus);
+    products[i] = {
+      origin: {
+        x: radius * Math.cos(originAngle),
+        y: radius * Math.sin(originAngle)
+      },
+      dest: {
+        x: radius * Math.cos(destAngle),
+        y: radius * Math.sin(destAngle)
+      }
+    };
   }
+  return products;
+}
+
+function angleFromNumber(num, modulus) {
+  return (num / modulus) * TAU;
 }
