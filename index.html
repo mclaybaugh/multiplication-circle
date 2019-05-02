@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Multiplication Circle</title>
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+  <main>
+    <div class="multCircle">
+      <div class="multCircle__parameters">
+        <fieldset id="dotSection">
+          <label for="dotRadius">Dot Radius
+            <input id="dotRadius" type="text" value="2">
+            <button id="incDotDraw">⬆</button>
+            <button id="decDotDraw">⬇</button>
+          </label>
+        </fieldset>
+        <fieldset id="modulusSection">
+          <label for="modulus">Modulus
+            <input class="inline" id="modulus" type="text" value="70"/>
+            <button id="incModAndDraw">⬆</button>
+            <button id="decModAndDraw">⬇</button>
+            <span class="description" id="moddesc">+ or - modulus by <b>one</b></span>
+            <input class="mult-slider" id="modrange" type="range" min="1" max="200"/>
+          </label>
+        </fieldset>
+        <fieldset id="multiplierSection">
+          <label for="multiplier">Multiplier
+            <input class="inline" id="multiplier" type="text" value="2"/>
+            <button id="incMultAndDraw">⬆</button>
+            <button id="decMultAndDraw">⬇</button>
+            <span class="description" id="multdesc"> + or - multiplier by <b>Delta</b></span>
+            <input class="mult-slider" id="multrange" type="range" min="0" max="100"/>
+          </label>
+          <label for="delta">Delta
+            <input id="delta" type="text" value="1"/>
+          </label>
+        </fieldset>
+        <fieldset id="animation">
+          <label for="framesPerSec">Frames/sec
+            <input id="framesPerSec" type="text" value="30"/>
+          </label>
+          <button id="startStopButton" class="btn">Start Animation</button>
+        </fieldset>
+      </div><!-- parameters-->
+      <canvas class="multCircle__canvas" width="400" height="400">Browser does not supportCanvas</canvas>
+    </div>
+  <main>
+  <script src="multiplication-circle.js"></script>
+</body>
+</html>
