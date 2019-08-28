@@ -8,5 +8,5 @@ and the origin points and destination points were related by math on their
 indexes of the two separate arrays. 
 
 I changed this to calculate the destination points directly, which is much
-simpler and cleaner, but it does remove the intereseting for-loops. My first
+simpler and cleaner, but it does remove the interesting for-loops. My first
 method was both more naive and more complex.
