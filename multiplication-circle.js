@@ -6,54 +6,55 @@
 
 const TAU = Math.PI * 2;
 
-let drawCanvasID;
-
-function toggleAnimation(event) {
-  if (event.target.innerHTML == 'Start Animation') {
-    let msPerFrame = Number(1000 / document.getElementById('framesPerSec').value);
-    drawCanvasID = setInterval(incMultAndDraw, msPerFrame);
-    event.target.innerHTML = 'Stop Animation';
-  } else {
-    clearInterval(drawCanvasID);
-    event.target.innerHTML = 'Start Animation';
-  }
+function toggle_animation_function(draw) {
+  let drawCanvasID;
+  return (event) => {
+    let animate = () => {
+      increment_multiplier();
+      draw();
+    };
+    if (event.target.innerText == 'Start Animation') {
+      let msPerFrame = Number(1000 / document.getElementById('framesPerSec').value);
+      drawCanvasID = setInterval(animate, msPerFrame);
+      event.target.innerText = 'Stop Animation';
+    } else {
+      clearInterval(drawCanvasID);
+      event.target.innerText = 'Start Animation';
+    }
+  };
 }
 
-function incMultAndDraw() {
+function increment_multiplier() {
   let multiplierInput = document.getElementById('multiplier');
   let multiplier = Math.round(Number(multiplierInput.value) * 1000);
   let delta = Math.round(Number(document.getElementById('delta').value) * 1000);
   multiplierInput.value = (multiplier + delta) / 1000;
-  drawCanvas();
 }
 
-function slideUpdateField(draw) {
-  return (event) => {
-    document.getElementById(event.target.getAttribute('data-controls')).value = event.target.value;
-    draw();
-  };
+function slide_update_field(event) {
+  document.getElementById(event.target.getAttribute('data-controls')).value = event.target.value;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Making variables global for repeated access in drawCanvas()
   let canvas = document.querySelector('.multCircle__canvas');
-  let context2d = canvas.getContext('2d');
+  let context = canvas.getContext('2d');
   let halfHeight = canvas.height / 2;
   let radius = halfHeight * 0.9;
+  let draw = draw_function(context, radius, canvas.height);
+  let toggleAnimation = toggle_animation_function(draw);
 
   // Canvas settings
-  context2d.translate(halfHeight, halfHeight);
-  context2d.font = '1rem monospace';
+  context.translate(halfHeight, halfHeight);
+  context.font = '1rem monospace';
 
   // Setup event handlers
-  let draw = drawCanvas(canvas, context2d, radius);
-  let slideHandler = slideUpdateField(draw);
   document.querySelectorAll('#modulus, #multiplier, #dotRadius').forEach((el) => {
     el.addEventListener('change', draw);
     el.addEventListener('keyup', draw);
   });
   document.querySelectorAll('#modrange, #multrange').forEach((el) => {
-    el.addEventListener('input', slideHandler);
+    el.addEventListener('input', slide_update_field);
+    el.addEventListener('input', draw);
   });
   document.querySelectorAll('#startStopButton').forEach((el) => {
     el.addEventListener('click', toggleAnimation);
@@ -63,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
   draw();
 });
 
-function drawCanvas (canvas, context, radius) {
+function draw_function(context, radius, height) {
   return () => {
     let dotRadius = document.getElementById('dotRadius').value;
     let modulus = document.getElementById('modulus').value;
@@ -71,8 +72,8 @@ function drawCanvas (canvas, context, radius) {
     let products = getProducts(modulus, radius, multiplier);
 
     // reset canvas and write modulus and multiplier values
-    let halfHeight = canvas.height / 2;
-    let twiceHeight = canvas.height * 2;
+    let halfHeight = height / 2;
+    let twiceHeight = height * 2;
     context.clearRect(-(halfHeight), -(halfHeight), twiceHeight, twiceHeight);
     context.fillText('Mod:  ' + modulus, -(halfHeight) + 15, -(halfHeight) + 20);
     context.fillText('Mult: ' + multiplier, -(halfHeight) + 15, -(halfHeight) + 40);
