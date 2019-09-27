@@ -4,50 +4,42 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Multiplication Circle</title>
-  <link href="style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css"/>
+  <script defer src="multiplication-circle.js"></script>
 </head>
 <body>
-  <main>
-    <div class="multCircle">
-      <div class="multCircle__parameters">
-        <fieldset id="dotSection">
-          <label for="dotRadius">Dot Radius
-            <input id="dotRadius" type="text" value="2">
-            <button id="incDotDraw">⬆</button>
-            <button id="decDotDraw">⬇</button>
-          </label>
-        </fieldset>
-        <fieldset id="modulusSection">
-          <label for="modulus">Modulus
-            <input class="inline" id="modulus" type="text" value="70"/>
-            <button id="incModAndDraw">⬆</button>
-            <button id="decModAndDraw">⬇</button>
-            <span class="description" id="moddesc">+ or - modulus by <b>one</b></span>
-            <input class="mult-slider" id="modrange" type="range" min="1" max="200"/>
-          </label>
-        </fieldset>
-        <fieldset id="multiplierSection">
-          <label for="multiplier">Multiplier
-            <input class="inline" id="multiplier" type="text" value="2"/>
-            <button id="incMultAndDraw">⬆</button>
-            <button id="decMultAndDraw">⬇</button>
-            <span class="description" id="multdesc"> + or - multiplier by <b>Delta</b></span>
-            <input class="mult-slider" id="multrange" type="range" min="0" max="100"/>
-          </label>
-          <label for="delta">Delta
-            <input id="delta" type="text" value="1"/>
-          </label>
-        </fieldset>
-        <fieldset id="animation">
-          <label for="framesPerSec">Frames/sec
-            <input id="framesPerSec" type="text" value="30"/>
-          </label>
-          <button id="startStopButton" class="btn">Start Animation</button>
-        </fieldset>
-      </div><!-- parameters-->
-      <canvas class="multCircle__canvas" width="400" height="400">Browser does not supportCanvas</canvas>
-    </div>
-  <main>
-  <script src="multiplication-circle.js"></script>
+<main>
+  <div class="multCircle flex flex-wrap">
+    <canvas class="multCircle__canvas" width="750" height="750">Browser does not supportCanvas</canvas>
+    <div class="multCircle__parameters">
+      <fieldset id="dotSection">
+        <label for="dotRadius">Dot Radius
+          <input id="dotRadius" type="number" value="2">
+        </label>
+      </fieldset>
+      <fieldset id="modulusSection">
+        <label for="modulus">Modulus
+          <input class="inline" id="modulus" type="number" value="70"/>
+          <input class="mult-slider db" id="modrange" type="range" min="1" max="200" data-controls="modulus"/>
+        </label>
+      </fieldset>
+      <fieldset id="multiplierSection">
+        <label for="multiplier">Multiplier
+          <input class="inline" id="multiplier" type="number" value="2"/>
+        </label>
+        <input class="mult-slider db" id="multrange" type="range" min="0" max="100" data-controls="multiplier"/>
+      </fieldset>
+      <fieldset id="animation">
+        <label for="delta" class="db">Delta
+          <input id="delta" type="text" value="0.01"/>
+        </label>
+        <label for="framesPerSec">Frames/sec
+          <input id="framesPerSec" type="text" value="30"/>
+        </label>
+        <button id="startStopButton" class="db">Start Animation</button>
+      </fieldset>
+    </div><!-- parameters-->
+  </div>
+<main>
 </body>
 </html>
