@@ -1,0 +1,23 @@
+{
+  "name": "multiplication-circle",
+  "version": "1.0.0",
+  "description": "Originally I implemented this to make two arrays, the first the coordinates of each dot around the circle, and the second of each cooridinate of a higher number of points, dictated by the precision of the multiplier. This made for some very interesting for-loops where there were two indexes being managed, and the origin points and destination points were related by math on their indexes of the two separate arrays.",
+  "main": "multiplication-circle.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mclaybaugh/multiplication-circle.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mclaybaugh/multiplication-circle/issues"
+  },
+  "homepage": "https://github.com/mclaybaugh/multiplication-circle#readme",
+  "devDependencies": {
+    "eslint": "^6.4.0"
+  }
+}
